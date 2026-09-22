@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Share Your Story — Hello Counsellor NG</title>
+<title>Share Your Story — Hello Counselor NG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -149,7 +149,7 @@
   }
 
   /* ---------------- Counsellor & Optional Section ---------------- */
-  .counsellor-section {
+  .counselor-section {
     margin: 2rem 0;
     padding: 1.25rem 1.35rem;
     background: var(--paper);
@@ -323,7 +323,7 @@
   <p class="intro">Write it in your own words, however messy or unfinished it feels. You don't need a name, a title, or a tidy ending — just what's true for you right now.</p>
 
   <div class="reminder">
-    <strong>Before you submit:</strong> please leave out your real name, phone number, address, social media handles, or anything else that could identify you or someone else. Use a fake name if you need to refer to another person.
+    <strong>Before you submit:</strong> please leave out your real name, phone number, address, social media handles, or anything else that could identify you or someone else. Adding your age is purely optional. Use a fake name if you need to refer to another person.
   </div>
 
   <div class="submit-error" id="submit-error"></div>
@@ -367,7 +367,7 @@
     </div>
 
     <!-- Optional Notice & Counsellor Contact Section -->
-    <div class="counsellor-section">
+    <div class="counselor-section">
       <p class="optional-notice">This is purely optional 👇</p>
       
       <span class="section-label">Would you like to speak with a counsellor?</span>
@@ -375,11 +375,11 @@
       
       <div class="radio-group">
         <label class="radio-option">
-          <input type="radio" name="wants_counsellor" value="no" checked>
+          <input type="radio" name="wants_counselor" value="no" checked>
           <span>No, just sharing my story</span>
         </label>
         <label class="radio-option">
-          <input type="radio" name="wants_counsellor" value="yes">
+          <input type="radio" name="wants_counselor" value="yes">
           <span>Yes, I'd like to speak with someone</span>
         </label>
       </div>
@@ -420,7 +420,7 @@
   const COL_MESSAGE = 'Message';
   const COL_GENDER = 'Gender';
   const COL_CATEGORY = 'Category';
-  const COL_WANTS_COUNSELLOR = 'Wants_Counsellor';
+  const COL_WANTS_COUNSELOR = 'Wants_Counselor';
   const COL_CONTACT_INFO = 'Contact_Info';
   const COL_STATUS = 'Status';
 
@@ -489,7 +489,7 @@
     }
 
     // Validate contact info if they requested a counsellor
-    if (wantsCounsellor && contactInfo.length === 0) {
+    if (wantsCounselor && contactInfo.length === 0) {
       contactField.classList.add('has-error');
       valid = false;
     } else {
@@ -511,7 +511,7 @@
       [COL_MESSAGE]: story,
       [COL_GENDER]: gender || null,
       [COL_CATEGORY]: category || null,
-      [COL_WANTS_COUNSELLOR]: wantsCounsellor,
+      [COL_WANTS_COUNSELOR]: wantsCounselor,
       [COL_CONTACT_INFO]: wantsCounsellor ? contactInfo : null,
       [COL_STATUS]: 'pending'
     };
