@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hello Counsellor NG — Admin Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+  :root {
+    --forest: #1C3B2A;
+    --forest-deep: #142A1E;
+    --cream: #FAF8F2;
+    --sage: #8CA88A;
+    --moss: #4A6B4D;
+    --ink: #16241A;
+    --ink-soft: #4B594E;
+    --line: #DEDACB;
+    --error: #A6432F;
+
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --cream: #F3F1E7;
+    }
+  }
+
+  html {
+    scroll-padding-top: env(safe-area-inset-top, 0px);
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    height: 100%;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Public Sans', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .screen {
+    min-height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 860px) {
+    .screen {
+      grid-template-columns: 44% 56%;
+    }
+  }
+
+  /* ---------- LEFT / BRAND PANEL ---------- */
+  .brand {
+    position: relative;
+    background: var(--forest);
+    color: var(--cream);
+    padding: 3rem 2.5rem 4.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    min-height: 320px;
+  }
+
+  @media (min-width: 860px) {
+    .brand {
+      padding: 4rem 4rem 5rem;
+      min-height: 100vh;
+    }
+  }
+
+  .brand::before {
+    /* faint organic texture: overlapping soft circles, like ripples */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 18% 24%, rgba(255,255,255,0.05) 0, rgba(255,255,255,0.05) 120px, transparent 121px),
+      radial-gradient(circle at 82% 68%, rgba(255,255,255,0.045) 0, rgba(255,255,255,0.045) 160px, transparent 161px),
+      radial-gradient(circle at 60% 10%, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 90px, transparent 91px);
+    pointer-events: none;
+  }
+
+  .mark-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-flex;
+    align-self: flex-start;
+  }
+
+  .mark {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+  }
+
+  .mark-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(250,248,242,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .brand-copy {
+    position: relative;
+    max-width: 30ch;
+  }
+
+  .brand-copy h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(1.6rem, 3vw, 2.35rem);
+    line-height: 1.25;
+    margin: 0 0 1.1rem;
+  }
+
+  .brand-copy p {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: rgba(250,248,242,0.78);
+    margin: 0;
+  }
+
+  .brand-foot {
+    position: relative;
+    font-size: 0.8rem;
+    color: rgba(250,248,242,0.5);
+    display: none;
+  }
+
+  @media (min-width: 860px) {
+    .brand-foot { display: block; }
+  }
+
+  /* organic curved seam between panels, desktop only */
+  .seam {
+    display: none;
+  }
+  @media (min-width: 860px) {
+    .seam {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: -1px;
+      height: 100%;
+      width: 90px;
+      transform: translateX(50%);
+    }
+  }
+
+  /* ---------- RIGHT / FORM PANEL ---------- */
+  .form-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.75rem 3.5rem;
+  }
+
+  @media (min-width: 860px) {
+    .form-panel { padding: 4rem; }
+  }
+
+  .form-wrap {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .form-eyebrow {
+    font-size: 0.85rem;
+    color: var(--moss);
+    margin: 0 0 0.4rem;
+  }
+
+  .form-wrap h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.9rem;
+    margin: 0 0 0.5rem;
+    color: var(--forest-deep);
+  }
+
+  .form-wrap > p.sub {
+    margin: 0 0 2.25rem;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .field {
+    margin-bottom: 1.6rem;
+  }
+
+  .field label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.45rem;
+  }
+
+  .field input {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid var(--line);
+    background: transparent;
+    padding: 0.55rem 0.1rem;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 1rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.18s ease;
+  }
+
+  .field input::placeholder { color: #A8A398; }
+
+  .field input:focus {
+    border-bottom-color: var(--forest);
+  }
+  .field input:focus-visible {
+    outline: 2px solid var(--moss);
+    outline-offset: 3px;
+  }
+
+  .field.has-error input {
+    border-bottom-color: var(--error);
+  }
+
+  .field-error {
+    display: none;
+    font-size: 0.8rem;
+    color: var(--error);
+    margin-top: 0.4rem;
+  }
+  .field.has-error .field-error { display: block; }
+
+  .row-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: -0.4rem 0 1.75rem;
+    font-size: 0.85rem;
+  }
+
+  .remember {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ink-soft);
+  }
+
+  .remember input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--forest);
+  }
+
+  a.link {
+    color: var(--moss);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(74,107,77,0.35);
+  }
+  a.link:hover { border-bottom-color: var(--moss); }
+  a.link:focus-visible { outline: 2px solid var(--moss); outline-offset: 2px; }
+
+  button.submit {
+    width: 100%;
+    background: var(--forest);
+    color: var(--cream);
+    border: none;
+    padding: 0.9rem 1rem;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: background 0.18s ease;
+  }
+
+  button.submit:hover { background: var(--moss); }
+  button.submit:focus-visible { outline: 2px solid var(--forest-deep); outline-offset: 3px; }
+  button.submit:disabled { opacity: 0.65; cursor: progress; }
+
+  .form-footnote {
+    margin-top: 2.25rem;
+    font-size: 0.8rem;
+    color: #8C8878;
+    line-height: 1.5;
+  }
+
+  .auth-error {
+    display: none;
+    background: #FBEAE6;
+    border: 1px solid #E3B3A6;
+    color: var(--error);
+    font-size: 0.85rem;
+    padding: 0.7rem 0.85rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+  .auth-error.visible { display: block; }
+
+  .signed-in-panel {
+    display: none;
+    width: 100%;
+    max-width: 360px;
+    text-align: left;
+  }
+  .signed-in-panel.visible { display: block; }
+
+  .signed-in-panel .check {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--forest);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .signed-in-panel h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.7rem;
+    margin: 0 0 0.6rem;
+    color: var(--forest-deep);
+  }
+
+  .signed-in-panel p {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 0.4rem;
+  }
+
+  .signed-in-panel .email-chip {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .signout-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--moss);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(74,107,77,0.35);
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 0;
+    font-family: 'Public Sans', sans-serif;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="screen">
+
+  <!-- LEFT: brand panel -->
+  <div class="brand">
+    <a href="index.html" class="mark-link">
+      <div class="mark">
+        <span class="mark-badge">HC</span>
+        <span>Hello Counsellor NG</span>
+      </div>
+    </a>
+
+    <div class="brand-copy">
+      <h1>Every story that reaches this door was trusted to someone first.</h1>
+      <p>This sign-in is for HC moderators only — the people who read submissions before anyone else does, and decide, with care, what gets carried forward.</p>
+    </div>
+
+    <div class="brand-foot">Many People. Many Stories. One Safe Space.</div>
+
+    <svg class="seam" viewBox="0 0 90 800" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,0 C 55,120 20,260 45,400 C 70,540 30,660 0,800 L 90,800 L 90,0 Z" fill="var(--cream, #FAF8F2)"/>
+    </svg>
+  </div>
+
+  <!-- RIGHT: form panel -->
+  <div class="form-panel">
+    <div class="form-wrap">
+      <p class="form-eyebrow">Moderator access</p>
+      <h2>Sign in</h2>
+      <p class="sub">Enter your HC admin credentials to continue.</p>
+
+      <div class="auth-error" id="auth-error"></div>
+
+      <form id="login-form" novalidate>
+        <div class="field" id="email-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@hellocounsellorng.org" autocomplete="username" required>
+          <p class="field-error" id="email-error">Enter a valid email address.</p>
+        </div>
+
+        <div class="field" id="password-field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+          <p class="field-error" id="password-error">Enter your password.</p>
+        </div>
+
+        <div class="row-between">
+          <label class="remember">
+            <input type="checkbox" id="remember" name="remember">
+            Stay signed in
+          </label>
+          <a href="#" class="link" id="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="submit" id="submit-btn">Sign in</button>
+      </form>
+
+      <p class="form-footnote">Access is limited to approved HC moderators. If you believe you should have access and don't, contact the HC admin team directly.</p>
+    </div>
+
+    <!-- Shown after a successful sign-in. Swap this for a redirect
+         to your real dashboard once it exists (see script below). -->
+    <div class="signed-in-panel" id="signed-in-panel">
+      <div class="check">✓</div>
+      <h2>You're signed in</h2>
+      <p>Welcome back. You're signed in as</p>
+      <p class="email-chip" id="signed-in-email"></p>
+      <button class="signout-link" id="signout-btn">Sign out</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ---------------------------------------------------------------
+  // Supabase setup
+  // ---------------------------------------------------------------
+  const SUPABASE_URL = 'https://aahszrjkrrqlcepcbrvq.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_MVWku_DfV6iX1HSY-BpEvw_x6Fj9NAg';
+
+  // Once your real admin dashboard exists, set its URL here.
+  // Leave as null to just show the "You're signed in" placeholder.
+  const DASHBOARD_URL = 'hc-admin-dashboard.html';
+
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+  const form = document.getElementById('login-form');
+  const emailField = document.getElementById('email-field');
+  const passwordField = document.getElementById('password-field');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const submitBtn = document.getElementById('submit-btn');
+  const authError = document.getElementById('auth-error');
+  const formWrap = document.querySelector('.form-wrap');
+  const signedInPanel = document.getElementById('signed-in-panel');
+  const signedInEmail = document.getElementById('signed-in-email');
+  const signoutBtn = document.getElementById('signout-btn');
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function showAuthError(message) {
+    authError.textContent = message;
+    authError.classList.add('visible');
+  }
+
+  function clearAuthError() {
+    authError.classList.remove('visible');
+    authError.textContent = '';
+  }
+
+  function showSignedIn(user) {
+    formWrap.style.display = 'none';
+    signedInEmail.textContent = user.email;
+    signedInPanel.classList.add('visible');
+  }
+
+  function showLoginForm() {
+    signedInPanel.classList.remove('visible');
+    formWrap.style.display = '';
+  }
+
+  // If a session already exists (e.g. page reload), skip straight
+  // to the signed-in state instead of asking to log in again.
+  sb.auth.getSession().then(({ data }) => {
+    if (data.session) {
+      if (DASHBOARD_URL) {
+        window.location.href = DASHBOARD_URL;
+      } else {
+        showSignedIn(data.session.user);
+      }
+    }
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearAuthError();
+
+    let valid = true;
+
+    if (!isValidEmail(emailInput.value.trim())) {
+      emailField.classList.add('has-error');
+      valid = false;
+    } else {
+      emailField.classList.remove('has-error');
+    }
+
+    if (!passwordInput.value) {
+      passwordField.classList.add('has-error');
+      valid = false;
+    } else {
+      passwordField.classList.remove('has-error');
+    }
+
+    if (!valid) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Signing in…';
+
+    const { data, error } = await sb.auth.signInWithPassword({
+      email: emailInput.value.trim(),
+      password: passwordInput.value,
+    });
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Sign in';
+
+    if (error) {
+      showAuthError(
+        error.message === 'Invalid login credentials'
+          ? 'That email or password is incorrect.'
+          : error.message
+      );
+      return;
+    }
+
+    if (DASHBOARD_URL) {
+      window.location.href = DASHBOARD_URL;
+    } else {
+      showSignedIn(data.user);
+    }
+  });
+
+  signoutBtn.addEventListener('click', async () => {
+    await sb.auth.signOut();
+    emailInput.value = '';
+    passwordInput.value = '';
+    showLoginForm();
+  });
+
+  document.getElementById('forgot-link').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    if (!isValidEmail(email)) {
+      emailField.classList.add('has-error');
+      showAuthError('Enter your email above first, then tap "Forgot password?" again.');
+      return;
+    }
+    const { error } = await sb.auth.resetPasswordForEmail(email);
+    if (error) {
+      showAuthError(error.message);
+    } else {
+      clearAuthError();
+      alert('Check your email for a password reset link.');
+    }
+  });
+</script>
+
+</body>
+</html>
+
+```
