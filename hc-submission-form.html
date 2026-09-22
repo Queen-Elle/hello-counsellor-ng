@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Share Your Story — Hello Counselor NG</title>
+<title>Share Your Story — Hello Counsellor NG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -148,8 +148,7 @@
     margin-top: 0.4rem;
   }
 
-  /* ---------------- Counsellor & Optional Section ---------------- */
-  .counselor-section {
+  .counsellor-section {
     margin: 2rem 0;
     padding: 1.25rem 1.35rem;
     background: var(--paper);
@@ -221,7 +220,6 @@
     line-height: 1.45;
   }
 
-  /* ---------------- Consent & Actions ---------------- */
   .consent {
     display: flex;
     align-items: flex-start;
@@ -268,7 +266,6 @@
   button.submit:disabled { opacity: 0.65; cursor: progress; }
   button.submit:focus-visible { outline: 2px solid var(--forest-deep); outline-offset: 3px; }
 
-  /* ---------------- Confirmation state ---------------- */
   .confirm {
     display: none;
     text-align: center;
@@ -323,14 +320,13 @@
   <p class="intro">Write it in your own words, however messy or unfinished it feels. You don't need a name, a title, or a tidy ending — just what's true for you right now.</p>
 
   <div class="reminder">
-    <strong>Before you submit:</strong> please leave out your real name, phone number, address, social media handles, or anything else that could identify you or someone else. Adding your age is purely optional. Use a fake name if you need to refer to another person.
+    <strong>Before you submit:</strong> please leave out your real name, phone number, address, social media handles, or anything else that could identify you or someone else. Use a fake name if you need to refer to another person.
   </div>
 
   <div class="submit-error" id="submit-error"></div>
 
   <form id="submission-form" novalidate>
 
-    <!-- Gender Select -->
     <div class="field">
       <label for="gender">Gender <span class="hint">(optional)</span></label>
       <select id="gender" name="gender">
@@ -345,7 +341,6 @@
       </select>
     </div>
 
-    <!-- Category Select -->
     <div class="field">
       <label for="category">Category <span class="hint">(optional)</span></label>
       <select id="category" name="category">
@@ -358,7 +353,6 @@
       </select>
     </div>
 
-    <!-- Main Message Input -->
     <div class="field" id="story-field">
       <label for="story">Your story <span class="hint">— anonymous, reviewed before sharing</span></label>
       <textarea id="story" name="story" placeholder="Lately I've been feeling..." required></textarea>
@@ -366,8 +360,7 @@
       <p class="char-count" id="char-count">0 characters</p>
     </div>
 
-    <!-- Optional Notice & Counsellor Contact Section -->
-    <div class="counselor-section">
+    <div class="counsellor-section">
       <p class="optional-notice">This is purely optional 👇</p>
       
       <span class="section-label">Would you like to speak with a counsellor?</span>
@@ -375,11 +368,11 @@
       
       <div class="radio-group">
         <label class="radio-option">
-          <input type="radio" name="wants_counselor" value="no" checked>
+          <input type="radio" name="wants_counsellor" value="no" checked>
           <span>No, just sharing my story</span>
         </label>
         <label class="radio-option">
-          <input type="radio" name="wants_counselor" value="yes">
+          <input type="radio" name="wants_counsellor" value="yes">
           <span>Yes, I'd like to speak with someone</span>
         </label>
       </div>
@@ -409,18 +402,14 @@
 </div>
 
 <script>
-  // ---------------------------------------------------------------
-  // Supabase setup — same project as the login/dashboard pages
-  // ---------------------------------------------------------------
   const SUPABASE_URL = 'https://aahszrjkrrqlcepcbrvq.supabase.co';
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_MVWku_DfV6iX1HSY-BpEvw_x6Fj9NAg';
 
-  // Table + column names — ALL capitalized first letters for every word
   const TABLE_NAME = 'Submissions';
   const COL_MESSAGE = 'Message';
   const COL_GENDER = 'Gender';
   const COL_CATEGORY = 'Category';
-  const COL_WANTS_COUNSELOR = 'Wants_Counselor';
+  const COL_WANTS_COUNSELLOR = 'wants_counsellor';
   const COL_CONTACT_INFO = 'Contact_Info';
   const COL_STATUS = 'Status';
 
@@ -434,14 +423,12 @@
   const categoryInput = document.getElementById('category');
   const contactField = document.getElementById('contact-field');
   const contactInput = document.getElementById('contact-info');
-  const contactError = document.getElementById('contact-error');
   const consentInput = document.getElementById('consent');
   const submitBtn = document.getElementById('submit-btn');
   const submitError = document.getElementById('submit-error');
   const confirmPanel = document.getElementById('confirm');
   const charCount = document.getElementById('char-count');
 
-  // Toggle dynamic contact info input
   const radioButtons = document.querySelectorAll('input[name="wants_counsellor"]');
   radioButtons.forEach(radio => {
     radio.addEventListener('change', (e) => {
@@ -480,7 +467,6 @@
 
     let valid = true;
 
-    // Validate story length
     if (story.length < 10) {
       storyField.classList.add('has-error');
       valid = false;
@@ -488,15 +474,13 @@
       storyField.classList.remove('has-error');
     }
 
-    // Validate contact info if they requested a counsellor
-    if (wantsCounselor && contactInfo.length === 0) {
+    if (wantsCounsellor && contactInfo.length === 0) {
       contactField.classList.add('has-error');
       valid = false;
     } else {
       contactField.classList.remove('has-error');
     }
 
-    // Validate consent checkbox
     if (!consentInput.checked) {
       showSubmitError('Please confirm you understand how your submission will be used before submitting.');
       valid = false;
@@ -511,28 +495,33 @@
       [COL_MESSAGE]: story,
       [COL_GENDER]: gender || null,
       [COL_CATEGORY]: category || null,
-      [COL_WANTS_COUNSELOR]: wantsCounselor,
+      [COL_WANTS_COUNSELLOR]: wantsCounsellor,
       [COL_CONTACT_INFO]: wantsCounsellor ? contactInfo : null,
       [COL_STATUS]: 'pending'
     };
 
-    const { error } = await sb
-      .from(TABLE_NAME)
-      .insert([payload]);
+    try {
+      const { data, error } = await sb
+        .from(TABLE_NAME)
+        .insert([payload]);
 
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Submit anonymously';
+      if (error) {
+        showSubmitError('Something went wrong submitting your story: ' + error.message);
+        return;
+      }
 
-    if (error) {
-      showSubmitError('Something went wrong submitting your story: ' + error.message);
-      return;
+      form.classList.add('hidden');
+      confirmPanel.classList.add('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      showSubmitError('Unexpected error: ' + err.message);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit anonymously';
     }
-
-    form.classList.add('hidden');
-    confirmPanel.classList.add('visible');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 </script>
 
 </body>
 </html>
+    
