@@ -594,18 +594,18 @@
 
   // Table + column names — update these if your real schema differs.
   // [HC CHANGE] Real Supabase table + real HC columns
-  const TABLE_NAME = 'submissions';
+  const TABLE_NAME = 'Submissions';
 
   const COL_ID = 'id';
-  const COL_MESSAGE = 'message';
-  const COL_AGE = 'age';
-  const COL_GENDER = 'gender';
-  const COL_CATEGORY = 'category';
-  const COL_STATUS = 'status';         // expected values: 'pending' | 'approved' | 'rejected'
-  const COL_SAFETY_FLAG = 'safety_flag';
-  const COL_WANTS_COUNSELLOR = 'wants_counsellor';
-  const COL_MODERATOR_NOTES = 'moderator_notes';
-  const COL_CREATED = 'created_at';
+  const COL_MESSAGE = 'Message';
+  const COL_AGE = 'Age';
+  const COL_GENDER = 'Gender';
+  const COL_CATEGORY = 'Category';
+  const COL_STATUS = 'Status';         // expected values: 'pending' | 'approved' | 'rejected'
+  const COL_SAFETY_FLAG = 'Safety_flag';
+  const COL_WANTS_COUNSELLOR = 'Wants_counsellor';
+  const COL_MODERATOR_NOTES = 'Moderator_notes';
+  const COL_CREATED = 'Created_at';
 
   const { createClient } = supabase;
   const sb = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
