@@ -508,11 +508,11 @@
     submitBtn.textContent = 'Submitting…';
 
     const payload = {
-      [COL_MESSAGE]: story,
-      [COL_GENDER]: gender || null,
-      [COL_CATEGORY]: category || null,
-      [COL_WANTS_COUNSELLOR]: wantsCounsellor,
-      [COL_CONTACT_INFO]: wantsCounsellor ? ContactInfo : null,
+      [COL_MESSAGE]: Story,
+      [COL_GENDER]: Gender || null,
+      [COL_CATEGORY]: Category || null,
+      [COL_WANTS_COUNSELLOR]: WantsCounsellor,
+      [COL_CONTACT_INFO]: WantsCounsellor ? ContactInfo : null,
       [COL_STATUS]: 'pending'
     };
 
