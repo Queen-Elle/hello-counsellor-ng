@@ -1003,7 +1003,7 @@
       ? sub[COL_POSTED_TO]
       : [];
 
-    destinationGrid.querySelectorAll('input[type="checkbox"]').forEach(box => {
+        document.querySelectorAll('.platform-check').forEach(box => {
       box.checked = savedDestinations.includes(box.value);
     });
 
