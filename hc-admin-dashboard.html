@@ -694,7 +694,45 @@
 </div>
 
 <!-- Detail overlay -->
+<!-- Modal Detail Overlay -->
 <div class="overlay" id="overlay">
+  <div class="detail-panel">
+    <div class="detail-top">
+      <span class="badge" id="detail-badge">pending</span>
+      <button class="detail-close" id="detail-close" aria-label="Close">✕</button>
+    </div>
+
+    <div class="detail-meta" id="detail-meta"></div>
+
+    <p class="detail-text" id="detail-text"></p>
+
+    <!-- Posted To Checkboxes -->
+    <div class="notes-block">
+      <label>Posted to</label>
+      <div class="platform-grid">
+        <label class="platform-item"><input type="checkbox" class="platform-check" value="WhatsApp"> WhatsApp</label>
+        <label class="platform-item"><input type="checkbox" class="platform-check" value="Instagram"> Instagram</label>
+        <label class="platform-item"><input type="checkbox" class="platform-check" value="TikTok"> TikTok</label>
+        <label class="platform-item"><input type="checkbox" class="platform-check" value="Podcast"> Podcast</label>
+        <label class="platform-item"><input type="checkbox" class="platform-check" value="X"> X</label>
+        <label class="platform-item"><input type="checkbox" class="platform-check" value="Reddit"> Reddit</label>
+      </div>
+    </div>
+
+    <div class="notes-block">
+      <label for="moderator-notes">Moderator notes <span class="hint">(admins only, not shared publicly)</span></label>
+      <textarea id="moderator-notes" placeholder="Add internal notes about this submission..."></textarea>
+      <button class="action-btn save" id="save-notes-btn">Save notes & platforms</button>
+    </div>
+
+    <div class="detail-actions">
+      <button class="action-btn approve" id="approve-btn">Approve</button>
+      <button class="action-btn reject" id="reject-btn">Reject</button>
+      <button class="action-btn reset" id="reset-btn">Reset to pending</button>
+    </div>
+  </div>
+</div>
+  
   <div class="detail-panel">
     <div class="detail-top">
       <span class="badge" id="detail-badge"></span>
