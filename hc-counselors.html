@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Counselors | Hello Counsellor NG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1C3B2A;
+    --forest-light: #3F8063;
+    --cream: #FAF8F2;
+    --header-bg: #ecf4ef;
+    --amber: #D98E3B;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    font-family: 'Public Sans', sans-serif;
+    color: var(--forest);
+  }
+
+  header {
+    background: var(--header-bg);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .back-link {
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--forest);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .back-link:hover { text-decoration: underline; }
+
+  header img {
+    height: 40px;
+  }
+
+  .page-intro {
+    max-width: 720px;
+    margin: 48px auto 8px;
+    padding: 0 24px;
+    text-align: center;
+  }
+
+  .page-intro h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+  }
+
+  .page-intro p {
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: #3d4d45;
+  }
+
+  .counselor-grid {
+    max-width: 1000px;
+    margin: 40px auto 80px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+  }
+
+  .counselor-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: 0 4px 18px rgba(28, 59, 42, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .counselor-photo {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--forest-light);
+    margin-bottom: 16px;
+    background: #e4e4e4;
+  }
+
+  .counselor-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+
+  .counselor-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    letter-spacing: 0.02em;
+  }
+
+  .badge-licensed {
+    background: #e2f2e9;
+    color: var(--forest-light);
+  }
+
+  .badge-progress {
+    background: #fbe9d3;
+    color: var(--amber);
+  }
+
+  .badge-cert {
+    background: #eef1f8;
+    color: #4a5aa8;
+  }
+
+  .counselor-bio {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #4c5b53;
+    margin-bottom: 20px;
+  }
+
+  .counselor-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: opacity 0.15s ease;
+  }
+
+  .action-btn:hover { opacity: 0.85; }
+
+  .btn-whatsapp {
+    background: #25D366;
+    color: #ffffff;
+  }
+
+  .btn-call {
+    background: var(--forest);
+    color: #ffffff;
+  }
+
+  .btn-email {
+    background: transparent;
+    border: 1.5px solid var(--forest-light);
+    color: var(--forest);
+  }
+
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 0.8rem;
+    color: #7a8b81;
+  }
+
+  @media (max-width: 500px) {
+    .page-intro h1 { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back-link">&larr; Back to Hello Counsellor NG</a>
+  <img src="logo.png" alt="Hello Counsellor NG logo">
+</header>
+
+<div class="page-intro">
+  <h1>Our Counselors</h1>
+  <p>These are the people on the ground at HC who are available to talk, one-on-one, if you ever want support beyond an anonymous story. Reach out directly — whatever feels most comfortable for you.</p>
+</div>
+
+<div class="counselor-grid">
+
+  <!-- Counselor 1: Volunteer -->
+  <div class="counselor-card">
+    <img class="counselor-photo" src="counselor1.jpg" alt="Photo of counselor">
+    <div class="counselor-name">Counselor Name</div>
+    <span class="counselor-badge badge-cert">Certified &middot; Volunteer</span>
+    <p class="counselor-bio">A trusted, discreet listener with years of experience and certifications in counseling practice. Volunteers his time to support the HC community.</p>
+    <div class="counselor-actions">
+      <a href="https://wa.me/234XXXXXXXXXX" class="action-btn btn-whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="tel:+234XXXXXXXXXX" class="action-btn btn-call">Call</a>
+      <a href="mailto:counselor1@example.com" class="action-btn btn-email">Email</a>
+    </div>
+  </div>
+
+  <!-- Counselor 2: CEO -->
+  <div class="counselor-card">
+    <img class="counselor-photo" src="counselor2.jpg" alt="Photo of counselor">
+    <div class="counselor-name">CEO Name</div>
+    <span class="counselor-badge badge-progress">License in progress</span>
+    <p class="counselor-bio">Founder of Hello Counsellor NG, currently completing his professional counseling license.</p>
+    <div class="counselor-actions">
+      <a href="https://wa.me/234XXXXXXXXXX" class="action-btn btn-whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="tel:+234XXXXXXXXXX" class="action-btn btn-call">Call</a>
+      <a href="mailto:ceo@example.com" class="action-btn btn-email">Email</a>
+    </div>
+  </div>
+
+  <!-- Counselor 3: Vetted by CEO -->
+  <div class="counselor-card">
+    <img class="counselor-photo" src="counselor3.jpg" alt="Photo of counselor">
+    <div class="counselor-name">Counselor Name</div>
+    <span class="counselor-badge badge-licensed">Vetted Counselor</span>
+    <p class="counselor-bio">Personally vetted by HC's founder to support members of the HC community.</p>
+    <div class="counselor-actions">
+      <a href="https://wa.me/234XXXXXXXXXX" class="action-btn btn-whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="tel:+234XXXXXXXXXX" class="action-btn btn-call">Call</a>
+      <a href="mailto:counselor3@example.com" class="action-btn btn-email">Email</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Hello Counsellor NG &mdash; you are not alone.
+</footer>
+
+</body>
+</html>
